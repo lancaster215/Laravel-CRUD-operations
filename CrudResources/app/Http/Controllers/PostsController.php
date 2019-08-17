@@ -3,7 +3,12 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Posts;
+use Illuminate\Support\Facades\Input;
+//use App\Posts;
+use App\Region;
+use App\Province;
+use App\Cities;
+use App\Barangays;
 use DB;
 class PostsController extends Controller
 {
@@ -14,8 +19,12 @@ class PostsController extends Controller
      */
     public function index()
     {
-        $posts = Posts::all();
-        return view('posts.index', compact('posts'));
+        $posts = Region::all();
+        $posts1 = Province::all();
+        $posts2 = Cities::all();
+        $posts3 = Barangays::all();
+        return view('posts.index', compact('posts','posts1','posts2','posts3'));
+
     }
 
     /**
@@ -25,36 +34,50 @@ class PostsController extends Controller
      */
     public function create()
     {
-        return view('posts.create');
+        $region = Region::all();
+        return view('posts.create', compact('region'));
     }
-
     /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
-    {
+    public function store(Request $request){
         $this->validate($request,[
-            'region'=>'required|string|max:255', 
-            'city'=>'required|string|max:255',
-            'province'=>'required|string|max:255',
-            'barangay'=>'required|string|max:255',
+            'r_name'=>'required|string|max:255'
         ]);
-        Posts::create($request->all());
+        Region::create($request->all());
         return redirect()->route('posts.index')->with('success','Post created successfully!');
     }
+    /*public function store(Request $request){
+        $this->validate($request,[
+            'p_name'=>'required|string|max:255',
+            'region'=>'required|integer'
+        ]);
+        Province::create($request->all());
+        return redirect()->route('posts.index')->with('success','Post created successfully!');
+    }
+    $this->validate($request,[
+        'c_name'=>'required|string|max:255',
+        'province'=>'required|integer'
+    ]);
+    Cities::create($request->all());
 
+    $this->validate($request,[
+        'b_name'=>'required|string|max:255',
+        'city'=>'required|integer'
+    ]);
+    Barangays::create($request->all());
     /**
      * Display the specified resource.
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($r_id)
     {
-        $post = Posts::find($id);
+        $post = Region::find($r_id);
         return view('posts.show',compact('post'));
     }
 
@@ -80,10 +103,7 @@ class PostsController extends Controller
     public function update(Request $request, $id)
     {
         $this->validate($request,[
-            'region' => 'required',
-            'city' => 'required',
-            'province'=>'required',
-            'barangay'=>'required',
+            'r_name' => 'required'
         ]);
         Posts::find($id)->update($request->all());
         return redirect()->route('posts.index')->with('success', 'Post updated successfully!');
@@ -95,9 +115,9 @@ class PostsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($r_id)
     {
-        Posts::find($id)->delete();
+        Region::find($r_id)->delete();
         return redirect()->route('posts.index')->with('success', 'Post deleted successfully!');
     }
 }

@@ -14,25 +14,25 @@
 		<div class="col-xs-12 col-sm-12 col-md-12">
 			<div class="form-group">
 				<strong>Region : </strong>
-				{{ $post->region }}
-			</div>
-		</div>
-		<div class="col-xs-12 col-sm-12 col-md-12">
-			<div class="form-group">
-				<strong>City : </strong>
-				{{ $post->city }}
+				{{ $post->r_name }}
 			</div>
 		</div>
 		<div class="col-xs-12 col-sm-12 col-md-12">
 			<div class="form-group">
 				<strong>Province : </strong>
-				{{ $post->province }}
+				{{ $post1->p_name }}
+			</div>
+		</div>
+		<div class="col-xs-12 col-sm-12 col-md-12">
+			<div class="form-group">
+				<strong>City : </strong>
+				{{ $post2->c_name }}
 			</div>
 		</div>
 		<div class="col-xs-12 col-sm-12 col-md-12">
 			<div class="form-group">
 				<strong>Barangay : </strong>
-				{{ $post->barangay }}
+				{{ $post3->b_name }}
 			</div>
 		</div>
 	</div>

@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateTablePost extends Migration
+class CreateCities extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,11 @@ class CreateTablePost extends Migration
      */
     public function up()
     {
-        Schema::create('Posts', function (Blueprint $table){
-            $table->increments('id');
-            $table->string('region');
-            $table->string('city');
-            $table->string('province');
-            $table->string('barangay');
+        Schema::create('cities', function (Blueprint $table) {
+            $table->bigIncrements('c_id');
+            $table->string('c_name');
+            $table->bigInteger('p_id')->unsigned();
+            $table->foreign('p_id')->references('p_id')->on('province');
             $table->timestamps();
         });
     }
@@ -30,6 +29,6 @@ class CreateTablePost extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('Posts');
+        Schema::dropIfExists('city');
     }
 }
