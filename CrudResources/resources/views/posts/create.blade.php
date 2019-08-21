@@ -9,55 +9,61 @@
 			{{ Form::open(['route'=>'posts.store', 'method'=>'POST']) }}
 				<div class="form-group pt-5">
 					<label>Input Region:</label>
-					<input class="form-control" type="text" id="r_name" name="r_name" placeholder="Input Region Name">
+					<input class="form-control" type="text" id="name" name="name" placeholder="Input Region Name">
 				</div>
 				<div class="form-group" style="float:right;">
-					{{ Form::button(isset($model) ? 'Update' : 'Add' , ['class'=>'btn btn-success', 'type'=>'submit']) }}
+					<input type="submit" name="button" value="Add" class="btn btn-success">
 				</div>
 			{{ Form::close() }}
 
 			{{ Form::open(['route'=>'posts.store', 'method'=>'POST']) }}
 				<div class="form-group pt-5">
 					<label>Input Province of
-						<select class="form-control" name="region" id="region">
+						<select class="form-control" name="region_id" id="region">
 							<option>--Select Region--</option>
 							@foreach($region as $key => $value)
-								<option value="{{ $value->r_id }}">{{ $value->r_name }}</option>
+								<option value="{{ $value->id }}">{{ $value->name }}</option>
 							@endforeach
 						</select>
 					</label>
-					<input class="form-control" type="text" id="p_name" name="p_name" placeholder="Input Province Name">
+					<input class="form-control" type="text" id="name" name="name" placeholder="Input Province Name">
 				</div>
 				<div class="form-group" style="float:right;">
-					{{ Form::button(isset($model) ? 'Update' : 'Add' , ['class'=>'btn btn-success', 'type'=>'submit']) }}
+					<input type="submit" name="button1" value="Add" class="btn btn-success">
 				</div>
 			{{ Form::close() }}
 
 			{{ Form::open(['route'=>'posts.store', 'method'=>'POST']) }}
 				<div class="form-group pt-5">
 					<label>Input City of
-						<select class="form-control" name="province" id="province">
+						<select class="form-control" name="province_id" id="province">
 							<option value="0" disable="true" selected="true">--Select Province--</option>
 						</select>
 					</label>
-					<input class="form-control" type="text" id="c_name" name="c_name" placeholder="Input City Name">
+					<select id="region-dependent" name="region_id" style="visibility: hidden;">
+					</select>
+					<input class="form-control" type="text" id="name" name="name" placeholder="Input City Name">
 				</div>
 				<div class="form-group" style="float:right;">
-					{{ Form::button(isset($model) ? 'Update' : 'Add' , ['class'=>'btn btn-success', 'type'=>'submit']) }}
+					<input type="submit" name="button2" value="Add" class="btn btn-success">
 				</div>
 			{{ Form::close() }}
 
 			{{ Form::open(['route'=>'posts.store', 'method'=>'POST']) }}
 				<div class="form-group pt-5">
 					<label>Input Barangay of
-						<select class="form-control" name="city" id="city">
+						<select class="form-control" name="cities_id" id="city">
 							<option value="0" disable="true" selected="true">--Select City--</option>
 						</select>
 					</label>
-					<input class="form-control" type="text" id="b_name" name="b_name" placeholder="Input Barangay Name">
+					<select id="region-dependent1" name="region_id" style="visibility: hidden;">
+					</select>
+					<select id="province-dependent" name="province_id" style="visibility: hidden;">
+					</select>
+					<input class="form-control" type="text" id="name" name="name" placeholder="Input Barangay Name">
 				</div>
 				<div class="form-group" style="float:right;">
-					{{ Form::button(isset($model) ? 'Update' : 'Add' , ['class'=>'btn btn-success', 'type'=>'submit']) }}
+					<input type="submit" name="button3" value="Add" class="btn btn-success">
 				</div>
 			{{ Form::close() }}
 
@@ -72,12 +78,14 @@
 	$(document).ready(function(){
 		$('#region').change(function(){
 			var r_id = $(this).val();
-			$.get('/ajax-prov?id='+r_id,function(data){
+			$.get('/ajax-prov?rid='+r_id,function(data){
 				console.log(data);
 				$('#province').empty();
 				$('#province').append('<option value="0" disable="true" selected="true">--Select Province--</option>');
 				$.each(data, function(index, provinceObj){
-					$('#province').append('<option value="'+ provinceObj.p_id +'">'+ provinceObj.p_name +'</option>');
+					$('#province').append('<option value="'+ provinceObj.id +'">'+ provinceObj.name +'</option>');
+					$('#region-dependent').append('<option value="'+ provinceObj.region_id +'">'+ provinceObj.region_id +'</option>');
+					$('#region-dependent1').append('<option value="'+ provinceObj.id +'">'+ provinceObj.id +'</option>');
 				});
 			});
 		});
@@ -88,7 +96,8 @@
 				$('#city').empty();
 				$('#city').append('<option value="0" disable="true" selected="true">--Select City--</option>');
 				$.each(data, function(index, cityObj){
-					$('#city').append('<option value="'+ cityObj.c_id +'">'+ cityObj.c_name +'</option>');
+					$('#city').append('<option value="'+ cityObj.id +'">'+ cityObj.name +'</option>');
+					$('#province-dependent').append('<option value="'+ cityObj.province_id +'">'+ cityObj.province_id +'</option>');
 				});
 			});
 		});
@@ -99,7 +108,7 @@
 				$('#barangay').empty();
 				$('#barangay').append('<option value="0" disable="true" selected="true">--Select Barangay--</option>');
 				$.each(data, function(index, barangayObj){
-					$('#barangay').append('<option value="'+ barangayObj.b_id +'">'+ barangayObj.b_name +'</option>');
+					$('#barangay').append('<option value="'+ barangayObj.id +'">'+ barangayObj.name +'</option>');
 				});
 			});
 		});

@@ -20,21 +20,21 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
-
-Route::resource('posts', 'PostsController');
+//Route::resource('posts/store1', 'PostsController@store1');
 Route::get('/create', 'PostsController@create');
+Route::resource('posts', 'PostsController');
 Route::get('/ajax-prov', function(){
-	$rid = Input::get('id');
-	$prov = Province::where('region', '=', $rid)->get();
+	$rid = Input::get('rid');
+	$prov = Province::where('region_id', '=', $rid)->get();
 	return Response::json($prov);
 });
 Route::get('/ajax-city', function(){
 	$pid = Input::get('pid');
-	$city = Cities::where('province', '=', $pid)->get();
+	$city = Cities::where('province_id', '=', $pid)->get();
 	return Response::json($city);
 });
 Route::get('/ajax-bara', function(){
 	$cid = Input::get('cid');
-	$bara = Barangays::where('barangay', '=', $cid)->get();
+	$bara = Barangays::where('cities_id', '=', $cid)->get();
 	return Response::json($bara);
 });

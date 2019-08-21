@@ -7,5 +7,9 @@ use Illuminate\Database\Eloquent\Model;
 class Barangays extends Model
 {
     protected $tabel = 'barangays';
-    protected $fillable = ['b_name', 'city'];
+    protected $fillable = ['name', 'cities_id', 'province_id', 'region_id'];
+    protected $primaryKey = 'id';
+    public function cities(){
+    	return $this->belongsTo(Cities::class);
+    }
 }

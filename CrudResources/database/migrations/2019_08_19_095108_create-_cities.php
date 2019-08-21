@@ -14,10 +14,12 @@ class CreateCities extends Migration
     public function up()
     {
         Schema::create('cities', function (Blueprint $table) {
-            $table->bigIncrements('c_id');
-            $table->string('c_name');
-            $table->bigInteger('p_id')->unsigned();
-            $table->foreign('p_id')->references('p_id')->on('province');
+            $table->bigIncrements('id');
+            $table->string('name');
+            $table->bigInteger('province_id')->unsigned();
+            $table->foreign('province_id')->references('id')->on('province');
+            $table->bigInteger('region_id')->unsigned();
+            $table->foreign('region_id')->references('id')->on('region');
             $table->timestamps();
         });
     }
@@ -29,6 +31,6 @@ class CreateCities extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('city');
+        Schema::dropIfExists('cities');
     }
 }

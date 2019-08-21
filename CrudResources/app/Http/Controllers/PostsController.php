@@ -19,12 +19,24 @@ class PostsController extends Controller
      */
     public function index()
     {
-        $posts = Region::all();
-        $posts1 = Province::all();
-        $posts2 = Cities::all();
-        $posts3 = Barangays::all();
-        return view('posts.index', compact('posts','posts1','posts2','posts3'));
-
+        $posts = DB::table('region')
+                    ->select('region.*','region.name')
+                    ->get();
+        $posts1 = DB::table('province')
+                    ->join('region', 'province.region_id', '=', 'region.id')
+                    ->select('province.*', 'province.name')
+                    ->get();
+        $posts2 = DB::table('cities')
+                    ->join('province', 'cities.province_id', '=','province.id')
+                    ->select('cities.*', 'cities.name')
+                    ->get();
+        $posts3 = DB::table('barangays')
+                    ->join('cities', 'barangays.cities_id', '=','cities.id')
+                    ->select('barangays.*', 'barangays.name')
+                    ->get();
+        return view('posts.index', 
+            ['posts' => $posts, 'posts1' => $posts1, 'posts2' => $posts2, 'posts3' => $posts3]
+        );
     }
 
     /**
@@ -44,41 +56,52 @@ class PostsController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request){
-        $this->validate($request,[
-            'r_name'=>'required|string|max:255'
-        ]);
-        Region::create($request->all());
-        return redirect()->route('posts.index')->with('success','Post created successfully!');
-    }
-    /*public function store(Request $request){
-        $this->validate($request,[
-            'p_name'=>'required|string|max:255',
-            'region'=>'required|integer'
-        ]);
+        if (isset($_POST['button'])) {
+           $this->validate($request,[
+                    'name'=>'required|string|max:255'
+                ]);
+            Region::create($request->all());
+        }
+        if(isset($_POST['button1'])){
+                $this->validate($request,[
+                'name'=>'required|string|max:255',
+                'region_id'=>'required|integer'
+            ]);
         Province::create($request->all());
+        }
+        if (isset($_POST['button2'])) {
+            $this->validate($request,[
+                'name'=>'required|string|max:255',
+                'province_id'=>'required|integer',
+                'region_id'=>'required|integer'
+            ]);
+            Cities::create($request->all());
+        }
+        if (isset($_POST['button3'])) {
+            $this->validate($request,[
+                'name'=>'required|string|max:255',
+                'cities_id'=>'required|integer',
+                'province_id'=>'required|integer',
+                'region_id'=>'required|integer'
+            ]);
+            Barangays::create($request->all());
+        }
         return redirect()->route('posts.index')->with('success','Post created successfully!');
     }
-    $this->validate($request,[
-        'c_name'=>'required|string|max:255',
-        'province'=>'required|integer'
-    ]);
-    Cities::create($request->all());
-
-    $this->validate($request,[
-        'b_name'=>'required|string|max:255',
-        'city'=>'required|integer'
-    ]);
-    Barangays::create($request->all());
+    /*
     /**
      * Display the specified resource.
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($r_id)
+    public function show($id)
     {
-        $post = Region::find($r_id);
-        return view('posts.show',compact('post'));
+        $post = Region::find($id);
+        $post1 = Province::find($id);
+        $post2 = Cities::find($id);
+        $post3 = Barangays::find($id);
+        return view('posts.show',compact('post', 'post1','post2','post3'));
     }
 
     /**
@@ -89,8 +112,11 @@ class PostsController extends Controller
      */
     public function edit($id)
     {
-        $post = Posts::find($id);
-        return view('posts.edit',compact('post'));
+        $post = Region::find($id);
+        $post1 = Province::find($id);
+        $post2 = Cities::find($id);
+        $post3 = Barangays::find($id);
+        return view('posts.edit',compact('post', 'post1','post2','post3'));
     }
 
     /**
@@ -102,10 +128,30 @@ class PostsController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $this->validate($request,[
-            'r_name' => 'required'
-        ]);
-        Posts::find($id)->update($request->all());
+        if (isset($_PATCH['button'])) {
+            $this->validate($request,[
+                'name' => 'required|string|max:255'
+            ]);
+            Region::find($id)->update($request->all());
+        }
+        if (isset($_PATCH['button1'])) {
+            $this->validate($request, [
+                'name' => 'required|string|max:255',
+            ]);
+            Province::find($id)->update($request->all());
+        }
+        if (isset($_PATCH['button2'])) {
+            $this->validate($request, [
+                'name' => 'required|string|max:255',
+            ]);
+            Cities::find($id)->update($request->all());
+        }
+        if (isset($_PATCH['button2'])) {
+            $this->validate($request, [
+                'name' => 'required|string|max:255',
+            ]);
+            Barangays::find($id)->update($request->all());
+        }
         return redirect()->route('posts.index')->with('success', 'Post updated successfully!');
     }
 
@@ -115,9 +161,20 @@ class PostsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($r_id)
+    public function destroy($id)
     {
-        Region::find($r_id)->delete();
+        if (isset($_DELETE['button'])) {
+            DB::table('region')->where('id','=',$id)->delete();
+        }
+        if (isset($_DELETE['button1'])) {
+            DB::table('province')->where('id','=',$id)->delete();
+        }
+        if (isset($_DELETE['button2'])) {
+            DB::table('cities')->where('id','=',$id)->delete();
+        }
+        if (isset($_DELETE['button3'])) {
+            DB::table('barangays')->where('id','=',$id)->delete();
+        }
         return redirect()->route('posts.index')->with('success', 'Post deleted successfully!');
     }
 }

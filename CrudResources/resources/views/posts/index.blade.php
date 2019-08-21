@@ -17,27 +17,22 @@
 				<a href="{{route('posts.create')}}" class="btn btn-success btn-sm">Add</a>
 			</th>
 		</tr>
-	@foreach ($posts as $key => $value)
-	@foreach ($posts1 as $key => $value1)
-	@foreach ($posts2 as $key => $value2)
-	@foreach ($posts3 as $key => $value3)
+	@foreach($posts as $key)
+	@foreach($posts1 as $key1)
+	@foreach($posts2 as $key2)
+	@foreach($posts3 as $key3)
 		<tr>
-			<td>{{ $value->r_name }}</td>
-			<td>{{ $value1->p_name }}</td>
-			<td>{{ $value2->c_name }}</td>
-			<td>{{ $value3->b_name }}</td>
+			<td><?php echo $key->name ?></td>
+			<td><?php echo $key1->name ?></td>
+			<td><?php echo $key2->name ?></td>
+			<td><?php echo $key3->name ?></td>
 			<td>
-				<a href="{{ route('posts.show', $value->r_id, $value1->p_id, $value2->c_id, $value3->b_id)}}" class="btn btn-primary btn-sm">
+				<a href="{{ route('posts.show', $key->id, $key1->id, $key2->id, $key3->id)}}" class="btn btn-primary btn-sm">
 					View
 				</a>
-				<a href="{{ route('posts.edit', $value->r_id, $value1->p_id, $value2->c_id, $value3->b_id)}}" class="btn btn-primary btn-sm">
+				<a href="{{ route('posts.edit', $key->id, $key1->id, $key2->id, $key3->id)}}" class="btn btn-primary btn-sm">
 					Update
 				</a>
-				{!! Form::open(['method' => 'DELETE','route' => ['posts.destroy', $value->r_id]])!!}
-				<button type="submit" class="btn btn-danger btn-sm">
-					Delete
-				</button>
-				{!! Form::close() !!}
 			</td>
 		</tr>
 	@endforeach
