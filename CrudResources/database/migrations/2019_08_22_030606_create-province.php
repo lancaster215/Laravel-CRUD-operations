@@ -17,7 +17,7 @@ class CreateProvince extends Migration
             $table->bigIncrements('id');
             $table->string('name');
             $table->bigInteger('region_id')->unsigned();
-            $table->foreign('region_id')->references('id')->on('region');
+            $table->foreign('region_id')->references('id')->on('region')->onDelete('cascade');
             $table->timestamps();
         });
     }

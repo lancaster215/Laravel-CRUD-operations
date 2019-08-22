@@ -86,7 +86,7 @@ class PostsController extends Controller
             ]);
             Barangays::create($request->all());
         }
-        return redirect()->route('posts.index')->with('success','Post created successfully!');
+        return redirect()->route('posts.create')->with('success','Post created successfully!');
     }
     /*
     /**
@@ -128,29 +128,17 @@ class PostsController extends Controller
      */
     public function update(Request $request, $id)
     {
-        if (isset($_PATCH['button'])) {
-            $this->validate($request,[
-                'name' => 'required|string|max:255'
-            ]);
-            Region::find($id)->update($request->all());
+        if (isset($_POST['button'])) {
+            Region::where('id','=',$id)->update(['name' => $request['region']]);
         }
-        if (isset($_PATCH['button1'])) {
-            $this->validate($request, [
-                'name' => 'required|string|max:255',
-            ]);
-            Province::find($id)->update($request->all());
+        if (isset($_POST['button1'])) {
+            Province::where('id','=',$id)->update(['name' => $request['prov']]);
         }
-        if (isset($_PATCH['button2'])) {
-            $this->validate($request, [
-                'name' => 'required|string|max:255',
-            ]);
-            Cities::find($id)->update($request->all());
+        if (isset($_POST['button2'])) {
+            Cities::where('id','=',$id)->update(['name' => $request['cit']]);
         }
-        if (isset($_PATCH['button2'])) {
-            $this->validate($request, [
-                'name' => 'required|string|max:255',
-            ]);
-            Barangays::find($id)->update($request->all());
+        if (isset($_POST['button3'])) {
+            Barangays::where('id','=',$id)->update(['name' => $request['bar']]);
         }
         return redirect()->route('posts.index')->with('success', 'Post updated successfully!');
     }
@@ -163,16 +151,16 @@ class PostsController extends Controller
      */
     public function destroy($id)
     {
-        if (isset($_DELETE['button'])) {
-            DB::table('region')->where('id','=',$id)->delete();
+        if (isset($_POST['button'])) {
+            DB::table('region')->where('id','=', $id)->delete();
         }
-        if (isset($_DELETE['button1'])) {
+        if (isset($_POST['button1'])) {
             DB::table('province')->where('id','=',$id)->delete();
         }
-        if (isset($_DELETE['button2'])) {
+        if (isset($_POST['button2'])) {
             DB::table('cities')->where('id','=',$id)->delete();
         }
-        if (isset($_DELETE['button3'])) {
+        if (isset($_POST['button3'])) {
             DB::table('barangays')->where('id','=',$id)->delete();
         }
         return redirect()->route('posts.index')->with('success', 'Post deleted successfully!');

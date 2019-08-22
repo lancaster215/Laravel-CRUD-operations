@@ -17,9 +17,9 @@ class CreateCities extends Migration
             $table->bigIncrements('id');
             $table->string('name');
             $table->bigInteger('province_id')->unsigned();
-            $table->foreign('province_id')->references('id')->on('province');
+            $table->foreign('province_id')->references('id')->on('province')->onDelete('cascade');
             $table->bigInteger('region_id')->unsigned();
-            $table->foreign('region_id')->references('id')->on('region');
+            $table->foreign('region_id')->references('id')->on('region')->onDelete('cascade');
             $table->timestamps();
         });
     }

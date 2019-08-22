@@ -21,7 +21,7 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 //Route::resource('posts/store1', 'PostsController@store1');
-Route::get('/create', 'PostsController@create');
+Route::put('posts/{name}', 'PostsController@update');
 Route::resource('posts', 'PostsController');
 Route::get('/ajax-prov', function(){
 	$rid = Input::get('rid');

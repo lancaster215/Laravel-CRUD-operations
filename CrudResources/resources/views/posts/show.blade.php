@@ -6,7 +6,7 @@
 				<h2>Post Show</h2>
 			</div>
 			<div style="float: right;">
-				<a class="btn btn-primary" href="{{route('posts.index')}}">Back</a>
+				<a class="btn btn-primary" href="{{route('posts.index')}}">Done</a>
 			</div>
 		</div>
 	</div>
@@ -24,7 +24,7 @@
 			<div class="form-group">
 				<strong>Province : </strong>
 				{{ $post1->name }}
-				{!! Form::open(['method' => 'DELETE','route' => ['posts.destroy', $post->id]])!!}
+				{!! Form::open(['method' => 'DELETE','route' => ['posts.destroy', $post1->id]])!!}
 				<input type="submit" name="button1" class="btn btn-danger btn-sm" value="Delete {{ $post1->name }}">
 				{!! Form::close() !!}
 			</div>
@@ -33,7 +33,7 @@
 			<div class="form-group">
 				<strong>City : </strong>
 				{{ $post2->name }}
-				{!! Form::open(['method' => 'DELETE','route' => ['posts.destroy', $post->id]])!!}
+				{!! Form::open(['method' => 'DELETE','route' => ['posts.destroy', $post2->id]])!!}
 				<input type="submit" name="button2" class="btn btn-danger btn-sm" value="Delete {{ $post2->name }}">
 				{!! Form::close() !!}
 			</div>
@@ -42,7 +42,7 @@
 			<div class="form-group">
 				<strong>Barangay : </strong>
 				{{ $post3->name }}
-				{!! Form::open(['method' => 'DELETE','route' => ['posts.destroy', $post->id]])!!}
+				{!! Form::open(['method' => 'DELETE','route' => ['posts.destroy', $post3->id]])!!}
 				<input type="submit" name="button3" class="btn btn-danger btn-sm" value="Delete {{ $post3->name }}">
 				{!! Form::close() !!}
 			</div>

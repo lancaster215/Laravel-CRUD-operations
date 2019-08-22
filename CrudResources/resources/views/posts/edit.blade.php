@@ -25,7 +25,7 @@
 			</div>
 			<div class="col-sm-10">
 				<div class="form-group">
-					<input type="text" name="region" id="region" value="{{$post1->name}}" class="form-control">
+					<input type="text" name="prov" id="prov" value="{{$post1->name}}" class="form-control">
 				</div>
 			</div>
 			<div class="form-group">
@@ -39,7 +39,7 @@
 			</div>
 			<div class="col-sm-10">
 				<div class="form-group">
-					<input type="text" name="region" id="region" value="{{$post2->name}}" class="form-control">
+					<input type="text" name="cit" id="cit" value="{{$post2->name}}" class="form-control">
 				</div>
 			</div>
 			<div class="form-group">
@@ -53,7 +53,7 @@
 			</div>
 			<div class="col-sm-10">
 				<div class="form-group">
-					<input type="text" name="region" id="region" value="{{$post3->name}}" class="form-control">
+					<input type="text" name="bar" id="bar" value="{{$post3->name}}" class="form-control">
 				</div>
 			</div>
 			<div class="form-group">
